@@ -48,22 +48,31 @@ class Button:
 class Image:
     def __init__(self, screen, name, pos, size=False, colorkey=False):  # Все нужное
         self.screen = screen  # Где рисуем
+        self.size = size
+        self.colorkey = colorkey
         self.pos_x, self.pos_y = pos  # Где именно рисуем
         self.image = pygame.Surface([100, 100])  # Создаем поверхность
         self.image.fill((0, 0, 0))  # Заливаем черным
-        self.fullname = os.path.join('data', name)  # Находим путь к нужной картинке
-        self.image = pygame.image.load(self.fullname)
-        if colorkey:  # прозрачность
+        self.image = pygame.image.load(name)
+        if self.colorkey:  # прозрачность
             self.image = self.image.convert()
             self.image.set_colorkey(self.image.get_at((0, 0)))  # убираем фон
         else:  # Не знаю че это, я просто скопировал из учебника
             self.image = self.image.convert_alpha()
-        if size:  # Меняем размер если нужно
-            self.width, self.height = size
+        if self.size:  # Меняем размер если нужно
+            self.width, self.height = self.size
             self.image = pygame.transform.scale(self.image, (self.width, self.height))
 
-    def set_image(self, name):  # Можно поменять картинку(недоделано)
-        pass
+    def set_image(self, name):  # Можно поменять картинку
+        self.image = pygame.image.load(name)
+        if self.colorkey:  # прозрачность
+            self.image = self.image.convert()
+            self.image.set_colorkey(self.image.get_at((0, 0)))  # убираем фон
+        else:  # Не знаю че это, я просто скопировал из учебника
+            self.image = self.image.convert_alpha()
+        if self.size:  # Меняем размер если нужно
+            self.width, self.height = self.size
+            self.image = pygame.transform.scale(self.image, (self.width, self.height))
 
     def draw_image(self):  # Рисуем
         self.screen.blit(self.image, (self.pos_x, self.pos_y))
